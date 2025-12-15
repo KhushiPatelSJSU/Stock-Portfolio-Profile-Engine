@@ -376,7 +376,15 @@ series5 = series5.sort_index().tail(5)
 # Display
 # -----------------------------
 st.subheader("Selected Strategies & Mapped Tickers")
-st.write({s: STRATEGY_MAP[s] for s in strategies})
+mapping_rows = []
+for s in strategies:
+    for t in STRATEGY_MAP[s]:
+        mapping_rows.append({"Strategy": s, "Ticker": t})
+
+if mapping_rows:
+    st.dataframe(pd.DataFrame(mapping_rows), use_container_width=True)
+else:
+    st.info("Select at least one strategy in the sidebar to see mapped tickers.")
 
 c1, c2, c3 = st.columns([3, 1.5, 1.5])
 with c1:
